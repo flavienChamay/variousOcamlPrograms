@@ -1,0 +1,160 @@
+Consignes générales
+
+Ce TP3 (non noté) permet de travailler les notions qui seront au programme du premier devoir maison PFITA (travail individuel comptant pour 10% de l'UE PFITA, dont le sujet sera diffusé après la dernière séance de TP du dernier groupe de cette semaine).
+
+Cette feuille est composée de trois parties indépendantes réalisables dans un ordre quelconque :
+
+    La partie A propose plusieurs exercices classiques sur les listes, complémentaire des exercices vus au Cours/TD 6.
+    La partie B porte sur la résolution du problèmes des Tours de Hanoï grâce à la récursivité.
+    La partie C est une révision des opérations élémentaires réalisables sur les listes ; cette partie correspond aux exercices déjà vus en principe en Cours/TD.
+
+Note : les énoncés notés avec une étoile comme 1)* ne peuvent pas être testés par la plateforme. Il est de votre ressort de mener toutes les vérifications nécessaires, notamment avec l'aide du toplevel.
+
+N'hésitez pas à solliciter votre encadrant de TP si vous avez des questions.
+Partie A - Exercices "classiques" sur les listes
+Exercice A.1 - Tri
+
+Dans cet exercice deux algorithmes de tri sont a réaliser. Le tri doit être croissant et porte sur une liste d’entiers.
+
+1) Tri par insertion : Écrire la fonction inserer qui, étant donné un entier et une liste déjà triée, construit la liste où l’entier est inséré en bonne position dans la liste. En déduire une fonction triInsertion qui trie une liste d’entiers dans l’ordre croissant.
+
+2) Tri par fusion : Écrire la fonction partage qui partage une liste en deux listes l1 et l2 telles que les tailles de l1 et l2 ne diffèrent que d’un au maximum. Écrire une fonction merge qui prend en argument deux listes ordonnées d’entiers et renvoie une liste ordonnée. En déduire une fonction triFusion qui trie une liste d’entiers dans l’ordre croissant.
+Exercice A.2 - Fonctions d'ordre supérieur utiles pour la suite
+
+Écrire les fonctions suivantes :
+
+1) filter qui, prenant en argument un prédicat unaire et une liste, construit la liste des éléments vérifiant le prédicat.
+
+2) forall qui, prenant en argument un prédicat unaire et une liste, renvoie vrai si et seulement si tous les éléments de la liste vérifient le prédicat.
+
+3) exists qui, prenant en argument un prédicat unaire et une liste, renvoie vrai si et seulement s'il existe au moins un élément de la liste vérifiant le prédicat.
+Exercice A.3 - Représentation d’une fonction unaire
+
+La fonction unaire ne sera représentée que sur un domaine fini. Une liste de couples donneront pour chaque x l'image de f(x).
+
+Par exemple, la fonction f sur l’intervalle [1,5] tq f(x) = 2x + 1 est représentée par la liste de couples :
+
+[(1,3) ; (2,5) ; (3,7) ; (4,9) ; (5,11)]
+
+Notons que, pour representer correctement une fonction, les premiers éléments des couples, doivent être tous différents.
+
+0) Écrire les fonctions fst et snd renvoyant la première composante (resp. la seconde composante) d'un couple.
+
+1) Écrire une fonction estFonction qui, étant donnée une liste de couples, vérifie que la liste des premiers éléments ne contient pas de duplication.
+
+On suppose maintenant qu’on a bien des fonctions.
+
+2) Écrire la fonction image qui, étant donnés un élément et une liste de couples (représentant f) renvoie la valeur associée à l’élément si elle existe.
+
+3) Écrire la fonction imageEns qui, étant données une liste d’éléments l et une liste de couples (représentant une fonction f) renvoie la liste des valeurs associées à chaque élément de l.
+
+4) Écrire estInjective qui appliquée à une fonction f représentée par une liste de couples vérifie que deux éléments n’ont pas la même image.
+
+5) Écrire la fonction surcharge prenant 2 listes représentant les fonctions f1 et f2 et renvoyant une liste représentant la fonction f définie sur l’union des domaines de définition de f1 et f2 et dont l’image d’un élément est donnée soit par f1, soit par f2 en donnant priorité à f2.
+
+6) Écrire la fonction composition prenant 2 listes représentant les fonctions f1 et f2 et renvoyant une liste représentant la fonction f dont l’image d’un élément est donnée par f1 appliquée à l’image par f2 de cet élément.
+
+7) Écrire la fonction produit prenant en argument deux listes représentant deux fonctions f1 et f2 et renvoyant la liste représentant la fonction qui à un couple (x,y) associe le couple (f1 x, f2 y).
+
+Exercice B - Tours de Hanoï
+
+Le problème des tours de Hanoï est un jeu de réflexion imaginé par le mathématicien français Édouard Lucas. C'est un très bon exemple pour illustrer l'expressivité de la récursivité (s'agissant ici, de la récursivité sur les entiers : les listes ne seront utilisées qu'en résultat).
+
+Le but du jeu est de déplacer des disques de diamètres différents d'une tour de départ (Tour 1) à une tour de destination (Tour 3) en passant par une tour intermédiaire (Tour 2).
+
+Image Tower_of_Hanoi
+
+Les règles de jeu sont les suivantes :
+
+    Ne déplacer qu'un disque à la fois.
+    Un disque ne peut être déplacé que si l'emplacement est vide ou si le disque de réception est plus grand.
+
+En raisonnant de manière inductive, écrire la fonction hanoi qui prend en argument le nombre n de disques ainsi qu'un triplet (source, temp, dest) de 3 paramètres supposés différents (qui identifient les tours), et renvoie la liste des mouvements définis par des couples
+
+(identifiant de la tour de départ, identifiant de la tour d’arrivée).
+
+Votre fonction devra avoir le type
+
+hanoi : int -> 'a * 'a * 'a -> ('a * 'a) list
+
+Indication : Voici le résultat de hanoi sur un exemple :
+
+hanoi 2 (1,2,3) = [(1, 2); (1, 3); (2, 3)]
+
+Partie C - Exercices de révision sur les listes
+Exercice C.1 - Écrire les fonctions suivantes
+
+1) last qui renvoie le dernier élément d’une liste, s’il existe.
+
+2) sum qui renvoie la somme des éléments d’une liste d’entiers.
+
+3) append qui, prenant en argument deux listes, concatène les deux listes.
+
+4) reverse qui, prenant en argument une liste, construit la liste en inversant l'ordre les éléments.
+Remarque : cette fonction admet plusieurs implémentations possibles. Vous utiliserez celle qui admet l'écriture la plus simple et la plus proche du style fonctionnel (et vous aurez le droit d'utiliser l'opérateur de concaténation ( @ ), qui correspond à la fonction List.append dans la bibliothèque standard).
+
+5) nbOcc qui, prenant en argument un élément et une liste, compte le nombre d’occurrences de l’élément dans la liste.
+
+6) elimFirst qui, prenant en argument un élément et une liste, construit la liste où la 1ère occurrence de l’élément a été supprimée.
+
+7) elimLast1 (et elimLast2) qui, prenant en argument un élément et une liste, construit la liste où la dernière occurrence de l’élément a été supprimée. Vous implémenterez deux variantes pour cette fonction : avec une implémentation let rec directe, et sans let rec mais en utilisant les fonctions précédentes (reverse…)
+
+8) elim qui, prenant en argument un élément et une liste, construit la liste où toutes les occurrences de l’élément ont été supprimées.
+
+9) substitute qui, prenant en argument 2 éléments x et y et une liste, construit la liste où toutes les occurrences de x sont remplacées par y.
+
+10) substitute2 qui, prenant en argument un prédicat unaire p, un élément et une liste, construit la liste où tous les éléments de la liste vérifiant le prédicat p sont remplacés par l’élément donné.
+Exercice C.2 - Construction et manipulation de listes
+
+1)* Construire la liste à 3 éléments contenant les entiers 10, 20 et 30 en utilisant d’une part :: et [] et d’autre part [, ] et le séparateur ;.
+
+2) Écrire les fonctions head et tail, qui, étant donnée une liste non vide, renvoie respectivement le 1er élément de la liste et la liste privée de son premier élément. On lèvera une exception avec failwith dans le cas d'une liste vide.
+
+3)* Composer les fonctions head et tail pour accéder, s’il existe, au 3ème élément de chacune des listes suivantes :
+
+[1;2;3;4]    [(1,2);(3,4);(5,6)]    []
+[1;2]        [[1];[2;3;4];[]]       [[1,2];[3,4];[5,6]]
+
+Exercice (C.3)* - Typage
+
+Donnez le type, s'il existe, des expressions suivantes :
+
+1) []
+
+2) [1;2;true]
+
+3) [1;(2,true)]
+
+4) [1,2,3]
+
+5) [[1,2];[3,4]]
+
+6) [[1,2];[3,4,5]]
+
+7) [1;2;3]
+
+8) [(1,true,5.0);(2,false,6.4);(3,true,7.9)]
+
+9) ([1;2;3],[[];[true,false]])
+Exercice (C.4)* - Motifs sur les listes
+
+En considérant le squelette de code let f1 = function MOTIF_A_COMPLÉTER -> e, écrire le motif qui permet d’accéder :
+
+1) au 2ème élément d’une liste à exactement trois éléments
+
+2) au 2ème élément d’une liste à au moins trois éléments
+
+3) au 2ème élément de la première liste d’un couple de 2 listes non vides
+
+4) au 2ème élément du premier couple d’une liste de 2 couples
+Exercice C.5 - Fonctions simples manipulant des listes
+
+1) Écrire la fonction consCpleDouble qui, étant donné un entier n, construit la liste des couples (i,2i) pour i = 1 à n.
+
+Remarque 1 : L'ordre des couples dans la liste résultat n'a pas d'importance.
+
+Remarque 2 : la fonction renverra la liste vide en cas d'argument n <= 0.
+
+2) Écrire la fonction consCpleF qui, étant donné une fonction f et un entier n, construit la liste des couples (i, f i) pour i = 1 à n.
+
+Mêmes remarques que pour la question 1).

@@ -1,0 +1,86 @@
+TP2-bis - Prolog
+
+(UPS - L3 Informatique - UE TAPFA - 2019-2020)
+
+Ce TP facultatif (à chercher si vous avez complètement terminé les TP1 et TP2) permet de mettre en pratique vos connaissances sur l'ordre supérieur et les itérateurs fold_right/fold_left.
+
+Il est à réaliser en autonomie (vous devrez tester votre code sans l'aide de tests fournis) avec l'environnement de développement OCaml standard (Emacs+Tuareg) :
+
+    cf. https://github.com/erikmd/autosetup-tapfa
+    ou https://github.com/erikmd/tapfa-init.el
+
+Fonctionnelles
+
+Vous pouvez réutiliser les fonctions OCaml suivantes :
+
+# List.exists;;
+- : ('a -> bool) -> 'a list -> bool = <fun>
+# List.for_all;;
+- : ('a -> bool) -> 'a list -> bool = <fun>
+# List.filter;;
+- : ('a -> bool) -> 'a list -> 'a list = <fun>
+# List.map;;
+- : ('a -> 'b) -> 'a list -> 'b list = <fun>
+# List.fold_right;;
+- : ('a -> 'b -> 'b) -> 'a list -> 'b -> 'b = <fun>
+# List.fold_left;;
+- : ('a -> 'b -> 'a) -> 'a -> 'b list -> 'a = <fun>
+
+Ecrire les fonctions estMembre (test d’appartenance d’un élément à une liste) et estInclus (test d’inclusion d’un ensemble dans un autre lorsque les deux ensembles sont représentés par les listes).
+
+Ecrire une fonction diffEns qui, étant donnés deux ensembles représentés sous forme de listes l1 et l2, retourne la liste des éléments de l1 n’apparaissant pas dans l2.
+
+Ecrire une fonction interEns qui, étant donnés deux ensembles représentés par des listes l1 et l2, retourne la liste des éléments de l1 apparaissant dans l2.
+Résolveur Prolog en Caml
+
+On désire mettre en œuvre un résolveur Prolog sans variables (pour la logique des propositions uniquement) et sans cut. On arrêtera la résolution dès le premier succès.
+
+Un programme Prolog est une base de connaissances, représentée par un ensemble de clauses.
+
+On distingue 2 types de clauses : les faits (lignes 3, 5 et 6 de l’exemple ci dessous) et les règles (lignes 1, 2 et 4).
+
+Un fait affirme la véracité de la proposition associée (ligne 3 : « q est vrai »). Une règle exprime que la véracité de la conclusion est conditionnée par la véracité des hypothèses (ligne 1 : « p est vrai si t, m et s sont vrais »).
+
+Un but est une conjonction de propositions.
+
+Exemples :
+
+Un programme Prolog
+1   p:-t,m,s.
+2   p:-q,r.
+3   q.
+4   r:-s,t.
+5   s.
+6   t.
+
+Un but Prolog :
+ -q,r,t.
+
+On représente en Ocaml une clause par un couple contenant la tête de la clause et la liste des propositions formant la queue de la clause. Dans le cas d’un fait, cette liste est vide. Un but est représenté par la liste de ses propositions.
+
+Exemple : 
+
+Le programme ci-dessus est représenté par :
+[(p , [t;m;s]);(p , [q;r]);(q,[]);(r , [s;t]);(s , []);(t , [])]
+
+Le but ci-dessus est représenté par [q;r;t]
+
+Une clause exprime à quelle(s) condition(s) la proposition de tête est vrai. Par exemple, la clause 1 indique que p est vrai si t, m et s sont tous les trois vrais, alors que la clause 3 indique que q est vrai sans condition.
+
+L’existence de plusieurs clauses avec une même proposition de tête signiﬁe que cette proposition est vraie si l’une des conditions est vraie : les clauses 1 et 2 expriment que p est vraie si t, m et s sont vraies ou q et r sont vraies. En revanche, tout ce qui n’est pas déclaré vrai est supposé faux.
+
+Résoudre un but, pour un programme donné, c’est montrer que toutes les propositions qu’il contient sont vraies.
+
+Pour le programme donné en exemple, les propositions q, s et t sont vraies puisque déclarées vraies sans conditions dans le programme (clauses 3, 5 et 6) ; la proposition r est vraie parce que s et t sont vraies (clause 4) ; la proposition p est vraie puisque q et r sont vraies (clause 4) ; la proposition m n’est pas vraie. En conséquence, le but q, r, t est démontrable, tandis que le but p, m ne l’est pas.
+
+Écrire une fonction demontrable qui, étant donnés un but b et un programme p, retourne vrai si et seulement si b se déduit de p. L’algorithme sera basé sur le fait qu’un but b est démontrable si toutes les propositions de b se trouvent en tête d’une clause de p dont tous les éléments de la queue sont démontrables.
+
+Une deuxième méthode pour déterminer si un programme p fournit une démonstration d’un but b consiste à générer la liste ld de toutes les propositions démontrables (par réductions successives du programme au moyen de propositionsDemontrees et reduitProg). Ensuite, il suffit de tester si b est inclus dans ld.
+
+Au moyen de filter, écrire une fonction propositionsDemontrees qui, étant donné un programme p, retourne la liste des propositions qui sont des faits.
+
+Au moyen de map, écrire une fonction reduitProg qui, étant donnés un programme p et une liste ldd de propositions déjà démontrées, retourne le programme p avec tous les éléments de ldd éliminés des queues de clauses.
+
+Écrire une nouvelle version de demontrable basée sur cette méthode. Critiquer les deux versions.
+
+Une troisième méthode, simple variante de la deuxième méthode construit aussi par saturation la liste des propositions démontrables mais sans modifier le code du programme. (À vous de jouer !)
